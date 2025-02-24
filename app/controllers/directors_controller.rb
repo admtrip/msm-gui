@@ -49,6 +49,7 @@ class DirectorsController < ApplicationController
     def eldest
       @eldest_director = Director.where.not(dob: nil).order(dob: :asc).first
       render({ template: "director_templates/eldest" })
-    end    
+    end
+       
   end
 end
