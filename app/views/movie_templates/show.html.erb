@@ -1,75 +1,27 @@
-<h1>
-  Movie #<%= @the_movie.id %> details
-</h1>
+<h1><%= @movie.title %></h1>
 
-<a href="/movies">
-  Go back
-</a>
+<p><strong>Directed by:</strong> 
+  <% if @movie.director.present? %>
+    <%= @movie.director.name %>
+  <% else %>
+    Unknown Director
+  <% end %>
+</p>
 
-<hr>
+<p><strong>Description:</strong> <%= @movie.description.presence || "No description available." %></p>
+<p><strong>Year:</strong> <%= @movie.year %></p>
+<p><strong>Duration:</strong> <%= @movie.duration %> minutes</p>
 
-<dl>
-  <dt>
-    Title
-  </dt>
-  <dd>
-    <%= @the_movie.title %>
-  </dd>
+<% if @movie.image.present? %>
+  <img src="<%= @movie.image %>" width="200">
+<% end %>
 
-  <dt>
-    Year
-  </dt>
-  <dd>
-    <%= @the_movie.year %>
-  </dd>
+<h2>Update Movie</h2>
+<form action="/update_movie/<%= @movie.id %>" method="post">
+  <label for="query_image">Image</label>
+  <input type="text" id="query_image" name="query_image" value="<%= @movie.image %>">
 
-  <dt>
-    Duration
-  </dt>
-  <dd>
-    <%= @the_movie.duration %>
-  </dd>
+  <button type="submit">Update movie</button>
+</form>
 
-  <dt>
-    Description
-  </dt>
-  <dd>
-    <%= @the_movie.description %>
-  </dd>
-
-  <dt>
-    Image
-  </dt>
-  <dd>
-    <img src="<%= @the_movie.image %>" style="width:250px;">
-  </dd>
-
-  <dt>
-    Director
-  </dt>
-  <dd>
-    <% dir_id = @the_movie.director_id %>
-    
-    <% matching_directors = Director.where({ :id => dir_id }) %>
-    
-    <% the_director = matching_directors.at(0) %>
-
-    <%= the_director.name %>
-  </dd>
-
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= @the_movie.created_at %>
-  </dd>
-
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= @the_movie.updated_at %>
-  </dd>
-</dl>
-
-<hr>
+<a href="/movies">Back to Movies</a>

@@ -1,120 +1,29 @@
-<h1>
-  Director #<%= @the_director.id %> details
-</h1>
+<h1>Director Details</h1>
 
-<a href="/directors">
-  Go back
-</a>
+<p><strong>Name:</strong> <%= @director.name %></p>
+<p><strong>Date of Birth:</strong> <%= @director.dob&.strftime("%Y-%m-%d") || "Unknown" %></p>
+<p><strong>Bio:</strong> <%= @director.bio.presence || "No biography available." %></p>
 
-<hr>
-
-<dl>
-  <dt>
-    Name
-  </dt>
-  <dd>
-    <%= @the_director.name %>
-  </dd>
-
-  <dt>
-    Dob
-  </dt>
-  <dd>
-    <%= @the_director.dob %>
-  </dd>
-
-  <dt>
-    Bio
-  </dt>
-  <dd>
-    <%= @the_director.bio %>
-  </dd>
-
-  <dt>
-    Image
-  </dt>
-  <dd>
-    <img src="<%= @the_director.image %>" style="width:250px;">
-  </dd>
-
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= @the_director.created_at %>
-  </dd>
-
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= @the_director.updated_at %>
-  </dd>
-</dl>
-
-<hr>
+<% if @director.image.present? %>
+  <img src="<%= @director.image %>" width="200">
+<% end %>
 
 <h2>Filmography</h2>
-
-<table border="1">
-  <tr>
-    <th>
-      ID
-    </th>
-
-    <th>
-      Image
-    </th>
-
-    <th>
-      Title
-    </th>
-
-    <th>
-      Year
-    </th>
-
-    <th>
-      Director
-    </th>
-
-    <th>
-    </th>
-  </tr>
-
-  <% the_id = @the_director.id %>
-
-  <% matching_movies = Movie.where({ :director_id => the_id }) %>
-  
-  <% films = matching_movies.order({ :year => :asc }) %>
-
-  <% films.each do |a_movie| %>
-  <tr>
-    <td>
-      <%= a_movie.id %>
-    </td>
-
-    <td>
-      <img src="<%= a_movie.image %>" style="width:250px;">
-    </td>
-
-    <td>
-      <%= a_movie.title %>
-    </td>
-
-    <td>
-      <%= a_movie.year %>
-    </td>
-
-    <td>
-      <%= @the_director.name %>
-    </td>
-
-    <td>
-      <a href="/movies/<%= a_movie.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
+<ul>
+  <% @movies_by_director.each do |movie| %>
+    <li>
+      <a href="/movies/<%= movie.id %>"><%= movie.title %></a> (Released in <%= movie.year %>)
+      <a href="/movies/<%= movie.id %>">Show details</a>
+    </li>
   <% end %>
-</table>
+</ul>
+
+<h2>Update Director</h2>
+<form action="/update_director/<%= @director.id %>" method="post">
+  <label for="query_image">Image</label>
+  <input type="text" id="query_image" name="query_image" value="<%= @director.image %>">
+
+  <button type="submit">Update director</button>
+</form>
+
+<a href="/directors">Back to Directors</a>

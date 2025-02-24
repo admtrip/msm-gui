@@ -11,4 +11,7 @@
 #  updated_at :datetime         not null
 #
 class Actor < ApplicationRecord
+  has_many :characters
+  has_many :movies, through: :characters
 end
+
