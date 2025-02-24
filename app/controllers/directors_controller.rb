@@ -40,16 +40,19 @@ class DirectorsController < ApplicationController
     else
       render({ template: "director_templates/show" })
     end
-
-    def youngest
-      @youngest_director = Director.where.not(dob: nil).order(dob: :desc).first
-      render({ template: "director_templates/youngest" })
-    end
-    
-    def eldest
-      @eldest_director = Director.where.not(dob: nil).order(dob: :asc).first
-      render({ template: "director_templates/eldest" })
-    end
-       
   end
+
+  # ✅ Fix youngest method
+  def youngest
+    @youngest_director = Director.where.not(dob: nil).order(dob: :desc).first
+    puts "DEBUG: Youngest Director - #{@youngest_director&.name}, DOB: #{@youngest_director&.dob}" # ✅ Debugging
+    render({ template: "director_templates/youngest" })
+  end    
+
+  # ✅ Fix eldest method
+  def eldest
+    @eldest_director = Director.where.not(dob: nil).order(dob: :asc).first
+    puts "DEBUG: Eldest Director - #{@eldest_director&.name}, DOB: #{@eldest_director&.dob}" # ✅ Debugging
+    render({ template: "director_templates/eldest" })
+  end    
 end

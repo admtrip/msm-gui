@@ -7,11 +7,15 @@ Rails.application.routes.draw do
   post("/update_actor/:id", { controller: "actors", action: "update" })
 
   # Directors Routes
-  get("/directors", { controller: "directors", action: "index" })
-  get("/directors/:id", { controller: "directors", action: "show" })
-  post("/insert_director", { controller: "directors", action: "create" })
-  get("/delete_director/:id", { controller: "directors", action: "destroy" })
-  post("/update_director/:id", { controller: "directors", action: "update" })
+  Rails.application.routes.draw do
+    get("/directors/youngest", { controller: "directors", action: "youngest" })
+    get("/directors/eldest", { controller: "directors", action: "eldest" })
+    get("/directors", { controller: "directors", action: "index" })
+    get("/directors/:id", { controller: "directors", action: "show" })
+    post("/insert_director", { controller: "directors", action: "create" })
+    get("/delete_director/:id", { controller: "directors", action: "destroy" })
+    post("/update_director/:id", { controller: "directors", action: "update" })
+  end  
 
   # Movies Routes
   get("/movies", { controller: "movies", action: "index" })
